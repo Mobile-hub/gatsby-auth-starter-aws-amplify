@@ -1,14 +1,25 @@
 # Gatsby Auth starter with AWS Amplify
 
-This auth starter implements a basic authentication flow for signing up signing in users as well as protected client side routing using [AWS Amplify](https://amplify.aws). Auth features:
-- User sign up
-- User sign in
-- Multi-factor Authentication
-- User sign-out
+This auth starter implements a basic authentication flow for signing up & signing in users, as well as protected client side routing using [AWS Amplify](https://amplify.aws). You need an AWS Account with enought permissions and a secret key and access key (even better temporary) to deploy using amplify CLI.
 
 ![Gatsby Amplify](src/images/gatby-auth.gif)
 
-# Deploy to the Amplify console
+**Auth features**:
+
+- User sign up
+- User sign in
+- Multi-factor Authentication
+- User logout
+- AWS Cognito Pool Config Sample (Amplify Auth created)
+- OPTIONAL: Using Existing Resources (commented template with API Gateway)
+
+**Business as usual features**:
+
+- Securized views
+- 404 Error Page
+- Robots.txt Setup
+
+## How to deploy to the Amplify console?
 
 Click the button to deploy a fullstack app in your AWS account:
 
@@ -20,7 +31,7 @@ You can now continuously deploy changes to your frontend or backend and Amplify 
 ![Amplify Console](src/images/amplify-console.gif)
 
 
-# Run locally
+## How to run locally?
 
 1. Create the project
 
@@ -44,17 +55,17 @@ npm install
 
 4. Install & configure the AWS Amplify CLI.
 
+> To see a video of how to configure the CLI, click [here](https://www.youtube.com/watch?v=fWbM5DLh25U)
+
 ```sh
 npm install -g @aws-amplify/cli
 
 amplify configure
 ```
 
-> To see a video of how to configure the CLI, click [here](https://www.youtube.com/watch?v=fWbM5DLh25U)
-
 5. Create a new AWS Amplify Project
 
-```
+```sh
 amplify init
 ```
 
@@ -80,3 +91,11 @@ amplify push
 ```sh
 gatsby develop
 ```
+
+## References
+
+* https://donaldmanuel.com/gatsby-authentication-cognito
+* https://www.gatsbyjs.org/tutorial/authentication-tutorial/
+* https://dev.to/dabit3/the-complete-guide-to-user-authentication-with-the-amplify-framework-2inh
+* https://docs.amplify.aws/lib/restapi/getting-started/q/platform/js#manual-setup-import-existing-rest-api
+* https://aws.amazon.com/amplify/framework/
