@@ -1,14 +1,14 @@
+// https://donaldmanuel.com/gatsby-authentication-cognito
+// https://www.gatsbyjs.org/tutorial/authentication-tutorial/
+
 const isBrowser = typeof window !== `undefined`
 
 export const setUser = user => (window.localStorage.gatsbyUser = JSON.stringify(user))
 
-const getUser = () => {
-  if (window.localStorage.gatsbyUser) {
-    let user = JSON.parse(window.localStorage.gatsbyUser)
-    return user ? user : {}
-  }
-  return {}
-}
+const getUser = () =>
+  isBrowser() && window.localStorage.getItem("gatsbyUser")
+    ? JSON.parse(window.localStorage.getItem("gatsbyUser"))
+    : {}
 
 export const isLoggedIn = () => {
   if (!isBrowser) return false
