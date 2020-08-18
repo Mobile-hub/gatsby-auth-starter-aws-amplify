@@ -19,6 +19,11 @@ This auth starter implements a basic authentication flow for signing up & signin
 - 404 Error Page
 - Robots.txt Setup
 
+## Disclaimer
+
+Running amplify commands may result in charges to your AWS account. You will incur charges for the services used in these modules. 
+The pricing for each service is available on that service's pricing page.
+
 ## How to deploy to the Amplify console?
 
 Click the button to deploy a fullstack app in your AWS account:
@@ -97,10 +102,6 @@ $> open localhost:8080
 * https://docs.amplify.aws/lib/restapi/getting-started/q/platform/js#manual-setup-import-existing-rest-api
 * https://aws.amazon.com/amplify/framework/
 
-## Disclaimer
-
-Running amplify commands may result in charges to your AWS account. You will incur charges for the services used in these modules. 
-The pricing for each service is available on that service's pricing page.
 
 ## License
 
