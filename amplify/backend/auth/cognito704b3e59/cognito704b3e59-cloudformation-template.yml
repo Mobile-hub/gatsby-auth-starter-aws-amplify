@@ -327,8 +327,6 @@ Resources:
           unauthenticated: !Ref unauthRoleArn
           authenticated: !Ref authRoleArn
     
-  
-
 Outputs :
   
   IdentityPoolId:
@@ -336,8 +334,6 @@ Outputs :
     Description:  Id for the identity pool
   IdentityPoolName:
     Value: !GetAtt IdentityPool.Name 
-  
-  
   UserPoolId:
     Value: !Ref 'UserPool'
     Description:  Id for the user pool
@@ -351,9 +347,4 @@ Outputs :
     Description: The user pool app client id
   AppClientSecret:
     Value: !GetAtt UserPoolClientInputs.appSecret
-  
-   
-   
-  
-   
   
