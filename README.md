@@ -94,7 +94,7 @@ $> amplify push
 
 ```sh
 $> gatsby develop
-$> open localhost:8080
+$> open http://localhost:8000
 ```
 
 ## References
