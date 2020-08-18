@@ -1,8 +1,15 @@
 {
   "name": "gatsby-auth-starter-aws",
-  "description": "Gatsby authentication starter for AWS",
-  "version": "1.0.0",
+  "description": "Gatsby authentication starter for AWS Amplify",
   "author": "Nader Dabit <dabit3.@gmail.com>",
+  "version": "1.1.0",
+  "license": "MIT",
+  "keywords": [
+    "gatsby",
+    "starter",
+    "AWS",
+    "Amplify"
+  ],
   "dependencies": {
     "aws-amplify": "^1.0.5",
     "aws-amplify-react": "^1.0.5",
@@ -20,17 +27,16 @@
     "react-dom": "^16.8.6",
     "react-helmet": "^5.2.1"
   },
-  "keywords": [
-    "gatsby"
-  ],
-  "license": "MIT",
   "scripts": {
-    "build": "gatsby build",
-    "develop": "gatsby develop",
-    "format": "prettier --write src/**/*.{js,jsx}",
     "start": "npm run develop",
     "serve": "gatsby serve",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\""
+    "clean": "gatsby clean",
+    "develop": "gatsby develop",
+    "build": "gatsby build",
+    "format": "prettier --write src/**/*.{js,jsx}",
+    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\"",
+    "provision": "amplify push",
+    "deploy": "amplify publish"
   },
   "devDependencies": {
     "prettier": "^1.18.2"
