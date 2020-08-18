@@ -15,9 +15,12 @@ This auth starter implements a basic authentication flow for signing up & signin
 
 **Business as usual features**:
 
-- Securized views
+- Securized & Public views
+- Base index.html i.e. to add styles or body classes
+- Assets & Static components
+- Image Component with src property
 - 404 Error Page
-- Robots.txt Setup
+- Robots.txt Plugin
 
 ## Disclaimer
 
