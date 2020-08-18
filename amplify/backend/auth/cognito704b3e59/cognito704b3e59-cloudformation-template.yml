@@ -1,4 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
+Description: Cloudformation template with Auth resources (Autocreated by AWS Amplify)
 
 Parameters:
   env:
@@ -11,119 +12,80 @@ Parameters:
     Type: String
   unauthRoleArn:
     Type: String
-
-    
   identityPoolName:
     Type: String
-              
   allowUnauthenticatedIdentities:
     Type: String
-            
   thirdPartyAuth:
     Type: String
-          
   lambdaLogPolicy:
     Type: String
-            
   openIdLambdaRoleName:
-    Type: String
-            
+    Type: String  
   openIdRolePolicy:
     Type: String
-            
   openIdLambdaIAMPolicy:
     Type: String
-            
   openIdLogPolicy:
     Type: String
-            
   userPoolName:
-    Type: String
-                  
+    Type: String  
   autoVerifiedAttributes:
     Type: CommaDelimitedList
-      
   mfaConfiguration:
     Type: String
-                  
   mfaTypes:
     Type: CommaDelimitedList
-      
   roleName:
     Type: String
-            
   roleExternalId:
     Type: String
-            
   policyName:
     Type: String
-            
   smsAuthenticationMessage:
     Type: String
-            
   smsVerificationMessage:
     Type: String
-            
   emailVerificationSubject:
     Type: String
-            
   emailVerificationMessage:
     Type: String
-              
   defaultPasswordPolicy:
     Type: String
-              
   passwordPolicyMinLength:
     Type: Number
-              
   passwordPolicyCharacters:
     Type: CommaDelimitedList
-            
   requiredAttributes:
     Type: CommaDelimitedList
-      
   userpoolClientName:
     Type: String
-              
   userpoolClientGenerateSecret:
     Type: String
-              
   userpoolClientRefreshTokenValidity:
     Type: Number
-              
   userpoolClientReadAttributes:
     Type: CommaDelimitedList
-      
   mfaLambdaRole:
     Type: String
-            
   mfaLambdaLogPolicy:
     Type: String
-            
   mfaPassRolePolicy:
     Type: String
-            
   mfaLambdaIAMPolicy:
     Type: String
-            
   userpoolClientLambdaRole:
     Type: String
-            
   userpoolClientLogPolicy:
     Type: String
-            
   userpoolClientLambdaPolicy:
     Type: String
-              
   userpoolClientSetAttributes:
     Type: String
-          
   useDefault:
     Type: String
-            
   resourceName:
     Type: String
-            
   authSelections:
     Type: String
                                                   
@@ -131,8 +93,11 @@ Conditions:
   ShouldNotCreateEnvResources: !Equals [ !Ref env, NONE ]
 
 Resources:
-  
+
+  #
   # BEGIN SNS ROLE RESOURCE
+  # ####################################################################################################################
+  
   SNSRole: 
   # Created to allow the UserPool SMS Config to publish via the Simple Notification Service during MFA Process
     Type: AWS::IAM::Role
@@ -161,7 +126,11 @@ Resources:
                 Action: 
                   - "sns:Publish"
                 Resource: "*"
+                
+  #
   # BEGIN USER POOL RESOURCES
+  # ####################################################################################################################
+    
   UserPool:
   # Created upon user selection
   # Depends on SNS Role for Arn if MFA is enabled
@@ -169,19 +138,13 @@ Resources:
     Properties:
       UserPoolName: !If [ShouldNotCreateEnvResources, !Ref userPoolName, !Join ['',[!Ref userPoolName, '-', !Ref env]]]
       Schema: 
-        
         -
           Name: email
           Required: true
           Mutable: true
-        
-      
       AutoVerifiedAttributes: !Ref autoVerifiedAttributes
-      
-      
       EmailVerificationMessage: !Ref emailVerificationMessage
       EmailVerificationSubject: !Ref emailVerificationSubject
-            
       Policies:
         PasswordPolicy:
           MinimumLength: !Ref passwordPolicyMinLength
@@ -199,27 +162,34 @@ Resources:
   # Created provide application access to user pool
   # Depends on UserPool for ID reference
     Type: "AWS::Cognito::UserPoolClient"
+    DependsOn: UserPool
     Properties:
       ClientName: cognito704b3e59_app_clientWeb
       
       RefreshTokenValidity: !Ref userpoolClientRefreshTokenValidity
       UserPoolId: !Ref UserPool
-    DependsOn: UserPool
+    
+
   UserPoolClient:
   # Created provide application access to user pool
   # Depends on UserPool for ID reference
     Type: "AWS::Cognito::UserPoolClient"
+    DependsOn: UserPool
     Properties:
       ClientName: !Ref userpoolClientName
-      
       GenerateSecret: !Ref userpoolClientGenerateSecret
       RefreshTokenValidity: !Ref userpoolClientRefreshTokenValidity
       UserPoolId: !Ref UserPool
-    DependsOn: UserPool
+    
+
+  #
   # BEGIN USER POOL LAMBDA RESOURCES
+  # ####################################################################################################################
+
   UserPoolClientRole:
   # Created to execute Lambda which gets userpool app client config values
     Type: 'AWS::IAM::Role'
+    DependsOn: UserPoolClient
     Properties:
       RoleName: !If [ShouldNotCreateEnvResources, !Ref userpoolClientLambdaRole, !Join ['',[!Ref userpoolClientLambdaRole, '-', !Ref env]]]
       AssumeRolePolicyDocument:
@@ -231,12 +201,13 @@ Resources:
                 - lambda.amazonaws.com
             Action:
               - 'sts:AssumeRole'
-    DependsOn: UserPoolClient
+  
   UserPoolClientLambda:
   # Lambda which gets userpool app client config values
   # Depends on UserPool for id
   # Depends on UserPoolClientRole for role ARN
     Type: 'AWS::Lambda::Function'
+    DependsOn: UserPoolClientRole
     Properties:
       Code:
         ZipFile: !Join 
@@ -268,12 +239,14 @@ Resources:
       Role: !GetAtt 
         - UserPoolClientRole
         - Arn
-    DependsOn: UserPoolClientRole
+    
+  
   UserPoolClientLambdaPolicy:
   # Sets userpool policy for the role that executes the Userpool Client Lambda
   # Depends on UserPool for Arn
   # Marked as depending on UserPoolClientRole for easier to understand CFN sequencing
     Type: 'AWS::IAM::Policy'
+    DependsOn: UserPoolClientLambda
     Properties:
       PolicyName: !Ref userpoolClientLambdaPolicy
       Roles: 
@@ -285,12 +258,14 @@ Resources:
             Action:
               - 'cognito-idp:DescribeUserPoolClient'
             Resource: !GetAtt UserPool.Arn
-    DependsOn: UserPoolClientLambda
+    
+  
   UserPoolClientLogPolicy:
   # Sets log policy for the role that executes the Userpool Client Lambda
   # Depends on UserPool for Arn
   # Marked as depending on UserPoolClientLambdaPolicy for easier to understand CFN sequencing
     Type: 'AWS::IAM::Policy'
+    DependsOn: UserPoolClientLambdaPolicy
     Properties:
       PolicyName: !Ref userpoolClientLogPolicy
       Roles: 
@@ -306,29 +281,30 @@ Resources:
             Resource: !Sub  
               - arn:aws:logs:${region}:${account}:log-group:/aws/lambda/${lambda}:log-stream:*
               - { region: !Ref "AWS::Region",  account: !Ref "AWS::AccountId", lambda: !Ref UserPoolClientLambda}
-    DependsOn: UserPoolClientLambdaPolicy  
+
   UserPoolClientInputs:
   # Values passed to Userpool client Lambda
   # Depends on UserPool for Id
   # Depends on UserPoolClient for Id
   # Marked as depending on UserPoolClientLambdaPolicy for easier to understand CFN sequencing
     Type: 'Custom::LambdaCallout'
+    DependsOn: UserPoolClientLogPolicy
     Properties:
       ServiceToken: !GetAtt UserPoolClientLambda.Arn
       clientId: !Ref UserPoolClient
       userpoolId: !Ref UserPool
-    DependsOn: UserPoolClientLogPolicy
-  
     
+  #
   # BEGIN IDENTITY POOL RESOURCES
-  
+  # ####################################################################################################################
   
   IdentityPool:
   # Always created
     Type: AWS::Cognito::IdentityPool
+    DependsOn: UserPoolClientInputs 
     Properties: 
       IdentityPoolName: !If [ShouldNotCreateEnvResources, 'cognito704b3e59_identitypool_704b3e59', !Join ['',['cognito704b3e59_identitypool_704b3e59', '__', !Ref env]]]
-      
+      AllowUnauthenticatedIdentities: !Ref allowUnauthenticatedIdentities
       CognitoIdentityProviders:
         - ClientId:  !Ref UserPoolClient
           ProviderName: !Sub
@@ -339,22 +315,18 @@ Resources:
             - cognito-idp.${region}.amazonaws.com/${client}
             - { region: !Ref "AWS::Region",  client: !Ref UserPool}
             
-      AllowUnauthenticatedIdentities: !Ref allowUnauthenticatedIdentities
-       
-       
-    DependsOn: UserPoolClientInputs 
-    
-  
+
   IdentityPoolRoleMap:
   # Created to map Auth and Unauth roles to the identity pool
   # Depends on Identity Pool for ID ref
     Type: AWS::Cognito::IdentityPoolRoleAttachment
+    DependsOn: IdentityPool
     Properties: 
       IdentityPoolId: !Ref IdentityPool
       Roles:
           unauthenticated: !Ref unauthRoleArn
           authenticated: !Ref authRoleArn
-    DependsOn: IdentityPool
+    
   
 
 Outputs :
