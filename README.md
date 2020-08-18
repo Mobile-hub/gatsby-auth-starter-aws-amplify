@@ -33,43 +33,34 @@ You can now continuously deploy changes to your frontend or backend and Amplify 
 
 ## How to run locally?
 
-1. Create the project
+1. Create the project and change into the new directory
 
 ```sh
-gatsby new gatsby-amplify-auth https://github.com/dabit3/gatsby-auth-starter-aws-amplify
+$> gatsby new gatsby-amplify-auth https://github.com/dabit3/gatsby-auth-starter-aws-amplify
+$> cd gatsby-amplify-auth
 ```
 
-2. Change into the new directory
+2. Setup dependencies and global tools (also using yarn)
 
 ```sh
-cd gatsby-amplify-auth
+$> npm install
+$> npm install -g @aws-amplify/cli
 ```
 
-3. Change into the new directory
+3. Install & configure the AWS Amplify CLI.
 
-```sh
-yarn
-# or
-npm install
-```
-
-4. Install & configure the AWS Amplify CLI.
-
+> At this point you need some data of your AWS Account
 > To see a video of how to configure the CLI, click [here](https://www.youtube.com/watch?v=fWbM5DLh25U)
 
 ```sh
-npm install -g @aws-amplify/cli
+$> amplify configure
 
-amplify configure
 ```
 
-5. Create a new AWS Amplify Project
+4. Create a new AWS Amplify Project and walk through the following steps:
 
 ```sh
-amplify init
-```
-
-> Here, walk through the following steps:
+$> amplify init
 
 - Enter a name for the project __YOURPROJECTNAME__
 - Enter a name for the environment __master__
@@ -81,15 +72,21 @@ amplify init
 - Build Command: __npm run-script build__
 - Start Command: __npm run-script develop__
 
-6. Push the updated project configuration to AWS. It will deploy a CloudFormation template that has an Amazon Cognito resource that enables user authentication.
-
-```sh
-amplify push
 ```
 
-7. Then you can run it by:
+5. Push the updated project configuration to AWS. 
+
+> It will deploy a CloudFormation template that has an Amazon Cognito resource that enables user authentication.
+
 ```sh
-gatsby develop
+$> amplify push
+```
+
+6. Then you can run it locally (but using remote Cognito as Auth type SaaS) by:
+
+```sh
+$> gatsby develop
+$> open localhost:8080
 ```
 
 ## References
@@ -99,3 +96,13 @@ gatsby develop
 * https://dev.to/dabit3/the-complete-guide-to-user-authentication-with-the-amplify-framework-2inh
 * https://docs.amplify.aws/lib/restapi/getting-started/q/platform/js#manual-setup-import-existing-rest-api
 * https://aws.amazon.com/amplify/framework/
+
+## Disclaimer
+
+Running amplify commands may result in charges to your AWS account. You will incur charges for the services used in these modules. 
+The pricing for each service is available on that service's pricing page.
+
+## License
+
+This sample code is made available under the MIT-0 license. See the LICENSE file.
+
