@@ -19,7 +19,6 @@ export default function HTML(props) {
       </head>
       <body
         {...props.bodyAttributes}
-        className="is-preload"
         cz-shortcut-listen="true"
       >
         {props.preBodyComponents}
