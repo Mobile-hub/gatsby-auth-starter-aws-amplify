@@ -1,3 +1,7 @@
+# IDE files
+.idea
+.vcs
+
 # Project dependencies
 .cache
 node_modules
