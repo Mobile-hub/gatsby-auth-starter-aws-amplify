@@ -12,8 +12,7 @@ export default function HTML(props) {
           name="viewport"
           content="width=device-width, initial-scale=1, user-scalable=no"
         />
-        <link rel="icon" type="image/png" href="{withPrefix("images/favicon.png")}/>
-        <script src={withPrefix("js/main.js")}></script>
+        <link rel="icon" type="image/png" href="{withPrefix("favicon.png")}/>
         {props.headComponents}
 
       </head>
