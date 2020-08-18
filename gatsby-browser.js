@@ -4,10 +4,13 @@
  * See: https://www.gatsbyjs.org/docs/browser-apis/
  */
 
-// You can delete this file if you're not using it
-
-import Auth from '@aws-amplify/auth'
 import { setUser } from './src/utils/auth'
+
+import Amplify, { Auth } from "aws-amplify"
+import awsmobile from "./src/aws-exports"
+import awsexternal from "./src/aws-imports"
+
+Amplify.configure({ ...awsmobile, ...awsexternal })
 
 export const onRouteUpdate = (state, page, pages) => {
   Auth.currentAuthenticatedUser()
