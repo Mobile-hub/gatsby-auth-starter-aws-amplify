@@ -37,7 +37,8 @@
     "format": "prettier --write src/**/*.{js,jsx,json}",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\"",
     "provision": "amplify push",
-    "deploy": "amplify publish"
+    "deploy": "amplify publish",
+    "delete": "amplify delete"
   },
   "devDependencies": {
     "prettier": "2.0.5"
