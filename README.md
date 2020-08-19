@@ -31,7 +31,7 @@ The pricing for each service is available on that service's pricing page.
 
 Click the button to deploy a fullstack app in your AWS account:
 
-[![amplifybutton](https://oneclick.amplifyapp.com/button.svg)](https://console.aws.amazon.com/amplify/home#/deploy?repo=https://github.com/dabit3/gatsby-auth-starter-aws-amplify)
+[![Deploy to AWS](https://img.shields.io/badge/Deploy%20to%20AWS-FF9901?logo=amazon-aws&logoColor=white&labelColor=FF9901)](https://console.aws.amazon.com/amplify/home#/deploy?repo=https://github.com/dabit3/gatsby-auth-starter-aws-amplify)
 
 You can now continuously deploy changes to your frontend or backend and Amplify Console will automatically deploy those changes.
 
